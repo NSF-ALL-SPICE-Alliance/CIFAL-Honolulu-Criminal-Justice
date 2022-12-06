@@ -1,0 +1,163 @@
+---
+title: "UNODC Reporting"
+author: "Connor Flynn"
+date: "11/19/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggcorrplot)
+```
+
+The main goal of this project is to assess the staus of Small Island Developing States (SIDS) on Criminal Justice-Oriented Sustainable Development Goals (SDG's). Throughout our data-collection process, we encountered significant amounts of mising data. This framed our initial research question to be: Are SIDS reporting data on Criminal Justice-Oriented Sustainable Development Goals less than Non-SIDS. This can inspire insight into the culture and systems of SIDS playing an important role into the survey response rates.
+
+After creating the dataset, we created 3 data visualizations demonstrating survey completion by region for SIDS and Non-SIDS. 
+
+
+
+Andrew: Hey Andrew, please comment above each code chunk to say what the code is doing. I've done the first 2 chunks for you
+
+
+Load in the datasets created from https://dataunodc.un.org/content/ms-data-collection-log by Andrew Nishitomi. The fist is survey response counts for SIDS and the second is survey response counts for Non-SIDS
+
+```{r}
+sids_reporting <- read_csv(here("data/UN_CJ_Data_Instruments_SIDS_Reporting.csv"))
+
+non_sids_reporting <- read_csv(here("data/UN_CJ_Data_Instruments _Non_SIDS_Reporting.csv"))
+
+```
+
+
+Clean the names of the columns of the two dataframes to make them all lower case and seperated by underscores. Using the janitor package, clean_names function
+```{r}
+sids_reporting <- sids_reporting %>% 
+  clean_names()
+
+non_sids_reporting <- non_sids_reporting %>% 
+  clean_names()
+
+```
+
+
+
+```{r}
+sids_reporting <- sids_reporting %>% 
+  filter(year!= 2017 & year!= 2018)
+
+sids_reporting <- sids_reporting %>% 
+  filter(country_territory!= "Wallis & Futuna" )
+
+```
+
+
+```{r}
+
+colnames(sids_reporting)[colnames(sids_reporting) == "received"] <- "completion_status"
+
+colnames(non_sids_reporting)[colnames(non_sids_reporting) == "received"] <- "completion_status"
+```
+
+
+
+```{r}
+
+sids_reporting$completion_status <- as.character(sids_reporting$completion_status)
+
+non_sids_reporting$completion_status <- as.character(non_sids_reporting$completion_status)
+
+```
+
+
+```{r}
+
+sids_reporting["completion_status"][sids_reporting["completion_status"] == "0"] <- "not_completed"
+
+sids_reporting["completion_status"][sids_reporting["completion_status"] == "1"] <- "completed"
+
+
+non_sids_reporting["completion_status"][non_sids_reporting["completion_status"] == "0"] <- "not_completed"
+
+non_sids_reporting["completion_status"][non_sids_reporting["completion_status"] == "1"] <- "completed"
+```
+
+
+
+```{r}
+sids_reporting_grouped <- sids_reporting %>% 
+  group_by(region, completion_status, data_collection) %>% 
+  count()
+```
+
+```{r}
+ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~region) +
+  scale_fill_brewer(palette="Dark2") +
+  labs(title = "Reporting Status for 5 UN Surveys from 2019 - 2022, SIDS",
+       x = "Survey Type",
+       y = "Number of Surveys Completed / Not Completed") +
+  theme(axis.text.x = element_text(size = 7, vjust = 1, hjust = 1),
+        axis.text.y = element_text(size = 7),
+        axis.title.x = element_text(size = 12),
+        axis.title.y = element_text(size = 12)) +
+  coord_flip()
+```
+
+
+```{r}
+non_sids_reporting_grouped <- non_sids_reporting %>% 
+  group_by(region, completion_status, data_collection) %>% 
+  count()
+```
+
+```{r}
+ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~region) +
+  scale_fill_brewer(palette="Dark2") +
+  labs(title = "Reporting Status for 5 UN Surveys from 2019 - 2022, Non-SIDS",
+       x = "Survey Type",
+       y = "Number of Surveys Completed / Not Completed") +
+  theme(axis.text.x = element_text(size = 7, vjust = 1, hjust = 1),
+        axis.text.y = element_text(size = 7),
+        axis.title.x = element_text(size = 12),
+        axis.title.y = element_text(size = 12))+
+  coord_flip()
+  
+```
+
+```{r}
+sids_reporting_matrix <- sids_reporting %>% 
+  select(year, completion_status, data_collection, country_territory)
+
+sids_reporting_matrix$data_collection_year <- paste(sids_reporting_matrix$data_collection, "_", sids_reporting_matrix$year)
+
+sids_reporting_matrix <- sids_reporting_matrix %>% 
+  select(country_territory, data_collection_year, completion_status)
+```
+
+
+
+
+
+```{r}
+ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territory, fill = completion_status)) +
+  geom_tile(color = "white",
+            lwd = 1,
+            linetype = 1) +
+  coord_fixed() +
+  labs(x = "Survey Type & Year",
+       y = "SIDS") +
+  theme(axis.text.x = element_text(angle = 45, size = 6, vjust = 1, hjust = 1),
+        axis.text.y = element_text(size = 9),
+        axis.title.x = element_text(size = 12),
+        axis.title.y = element_text(size = 12),
+        legend.title = element_text(size = 6),
+  legend.text = element_text(size = 12)) +
+  scale_fill_brewer(palette="Dark2") 
+```
+
