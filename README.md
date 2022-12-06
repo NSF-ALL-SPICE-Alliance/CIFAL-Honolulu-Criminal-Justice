@@ -4,20 +4,21 @@
 
 ### Welcome
 
-This project is a collaboration between CIFAL Honolulu and Chaminade University. The main goal of this project is to assess the staus of Small Island Developing States (SIDS) on Criminal Justice Oriented Sustainable Development Goals (SDG's). The first step of this process was to understand why so much of this data was missing. 
+This project is a collaboration between CIFAL Honolulu and Chaminade University. The main goal of this project is to assess the staus of Small Island Developing States (SIDS) on Criminal Justice-Oriented Sustainable Development Goals (SDG's). Throughout our data-collection process, we encountered significant amounts of mising data. This framed our initial research question to be: Are SIDS reporting data on Criminal Justice-Oriented Sustainable Development Goals less than Non-SIDS. This can inspire insight into the culture and systems of SIDS playing an important role into the survey response rates.
 
 
 ### Data 
 
-We accessed the [UNODC Status of Country Data Submissions by Data Collection Campaign Year](https://dataunodc.un.org/content/ms-data-collection-log) to create a datset based on completion of 5 surveys shown below.
+We accessed the [UNODC Status of Country Data Submissions by Data Collection Campaign Year](https://dataunodc.un.org/content/ms-data-collection-log) to create a dataset based on completion of 5 surveys shown below.
 
 
-<img src="unodc_survey.png" width="820" />
+<img src="unodc_survey_2.png" width="820" />
+
 
 
 ### Analysis
 
-After creating the dataset, we created 3 data visualizations deomnstrating survey completion by region for SIDS and Non-SIDS. These visualizations are in the *visualizations* folder and the code to create them is in the *analysis* folder.
+After creating the dataset, we created 3 data visualizations demonstrating survey completion by region for SIDS and Non-SIDS. These visualizations are in the *visualizations* folder and the code to create them is in the *analysis* folder.
 
 
 ### Project Participants
