@@ -124,7 +124,7 @@ non_sids_reporting_grouped <- non_sids_reporting %>%
 
 Show bar graph to show all 5 regions that completed and not completed UN Surveys
 ```{r}
-ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
+reporting_status_nonsids <- ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~region) +
   scale_fill_brewer(palette="Dark2") +
@@ -137,6 +137,9 @@ ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=comp
         axis.title.y = element_text(size = 12))+
   coord_flip()
   
+reporting_status_nonsids
+
+ggsave(reporting_status_nonsids, file= here("visualizations/reporting_status_nonsids.png"), scale=2)
 ```
 Rearranging columns so that data set shows country_territory, data_collection_year, completion_status
 ```{r}
@@ -154,7 +157,7 @@ sids_reporting_matrix <- sids_reporting_matrix %>%
 
 Create Heat Graph that shows completion status per year for every data collection 
 ```{r}
-ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territory, fill = completion_status)) +
+reporting_status_matrix <- ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territory, fill = completion_status)) +
   geom_tile(color = "white",
             lwd = 1,
             linetype = 1) +
@@ -168,5 +171,9 @@ ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territor
         legend.title = element_text(size = 6),
   legend.text = element_text(size = 12)) +
   scale_fill_brewer(palette="Dark2") 
+
+reporting_status_matrix
+
+ggsave(reporting_status_matrix, file= here("visualizations/reporting_status_matrix.png"), scale=2)
 ```
 
