@@ -94,7 +94,7 @@ sids_reporting_grouped <- sids_reporting %>%
 
 Create a bar graph to display number of surveys completed from each region. As xaxis is Number of surveys completed and yaxis is survey type
 ```{r}
-ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
+reporting_status_sids <- ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~region) +
   scale_fill_brewer(palette="Dark2") +
@@ -106,6 +106,13 @@ ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completi
         axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12)) +
   coord_flip()
+
+reporting_status_sids
+
+ggsave(reporting_status_sids, file= here("visualizations/reporting_status_sids.png"), scale=2)
+
+
+
 ```
 
 Counting number of non-sids that completed and not completed UN Surveys
