@@ -43,7 +43,7 @@ non_sids_reporting <- non_sids_reporting %>%
 ```
 
 
-
+Filter out the years reporting 2017 and 2018 to keep the data frames consistent for the amount of years used.
 ```{r}
 sids_reporting <- sids_reporting %>% 
   filter(year!= 2017 & year!= 2018)
@@ -53,7 +53,7 @@ sids_reporting <- sids_reporting %>%
 
 ```
 
-
+Change column name from received to completion status for both sids_reporting and non_sids_reporting
 ```{r}
 
 colnames(sids_reporting)[colnames(sids_reporting) == "received"] <- "completion_status"
@@ -62,7 +62,7 @@ colnames(non_sids_reporting)[colnames(non_sids_reporting) == "received"] <- "com
 ```
 
 
-
+Converting numeric value to charcter
 ```{r}
 
 sids_reporting$completion_status <- as.character(sids_reporting$completion_status)
@@ -71,7 +71,7 @@ non_sids_reporting$completion_status <- as.character(non_sids_reporting$completi
 
 ```
 
-
+Making characters as 0= "not_completed" and 1="completed"
 ```{r}
 
 sids_reporting["completion_status"][sids_reporting["completion_status"] == "0"] <- "not_completed"
@@ -85,13 +85,14 @@ non_sids_reporting["completion_status"][non_sids_reporting["completion_status"] 
 ```
 
 
-
+Counting number of sids that completed and not completed UN Surveys
 ```{r}
 sids_reporting_grouped <- sids_reporting %>% 
   group_by(region, completion_status, data_collection) %>% 
   count()
 ```
 
+Create a bar graph to display number of surveys completed from each region. As xaxis is Number of surveys completed and yaxis is survey type
 ```{r}
 ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -107,13 +108,14 @@ ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completi
   coord_flip()
 ```
 
-
+Counting number of non-sids that completed and not completed UN Surveys
 ```{r}
 non_sids_reporting_grouped <- non_sids_reporting %>% 
   group_by(region, completion_status, data_collection) %>% 
   count()
 ```
 
+Show bar graph to show all 5 regions that completed and not completed UN Surveys
 ```{r}
 ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -129,7 +131,7 @@ ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=comp
   coord_flip()
   
 ```
-
+Rearranging columns so that data set shows country_territory, data_collection_year, completion_status
 ```{r}
 sids_reporting_matrix <- sids_reporting %>% 
   select(year, completion_status, data_collection, country_territory)
@@ -143,7 +145,7 @@ sids_reporting_matrix <- sids_reporting_matrix %>%
 
 
 
-
+Create Heat Graph that shows completion status per year for every data collection 
 ```{r}
 ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territory, fill = completion_status)) +
   geom_tile(color = "white",
