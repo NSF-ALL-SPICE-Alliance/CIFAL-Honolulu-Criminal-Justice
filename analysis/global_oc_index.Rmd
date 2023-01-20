@@ -1,0 +1,20 @@
+---
+title: "global_oc_index_2021"
+output: html_document
+date: "2023-01-20"
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+
+```{r}
+global_oc_index <- read_csv(here("global_oc_index_2021.csv"))
+
+```
+
+
