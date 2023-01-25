@@ -13,7 +13,7 @@ library(janitor)
 
 
 ```{r}
-global_oc_index <- read_csv(here("global_oc_index_2021.csv"))
+global_oc_index <- read_csv(here("data/global_oc_index_2021.csv"))
 
 ```
 
