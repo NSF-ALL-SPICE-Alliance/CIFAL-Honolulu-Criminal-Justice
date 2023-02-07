@@ -1,0 +1,37 @@
+---
+title: "Spider_Chart_OC_index"
+output: html_document
+date: "2023-02-04"
+---
+
+#installing packages
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(fmsb)
+```
+
+```{r}
+global_oc_index_spider <- read_csv(here("data/global_oc_index_2021_sids_category.csv"))
+```
+
+
+```{r}
+data <- as.data.frame(matrix( sample( 2:20 , 10 , replace=T) , ncol=10))
+colnames(data) <- c("criminality" , "english" , "biology" , "music" , "R-coding", "data-viz" , "french" , "physic", "statistic", "sport" )
+```
+
+
+```{r}
+# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
+data <- rbind(rep(20,10) , rep(0,10) , data)
+```
+
+
+```{r}
+# The default radar chart 
+radarchart(data)
+```
+
