@@ -83,6 +83,25 @@ radar_data <- rbind(rep(8,4) , rep(0,8) , global_oc_index_spider_sids_criminalit
 
 
 ```{r}
-radarchart(radar_data, pfcol = "steelblue")
+radarchart(radar_data, pfcol = "lavender")
 ```
+
+
+#Customizing the Spider Plot
+```{r}
+colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
+colors_in=c( rgb(0.2,0.5,0.5,.8), rgb(0.8,0.2,0.5,.8) , rgb(0.7,0.5,0.1,.8) )
+```
+
+
+```{r}
+radarchart(radar_data, axistype=1 , pcol=colors_border , pfcol=colors_in , plwd=3 , plty=1, cglcol="dark grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.95,vlcex=0.8)
+
+```
+
+
+```{r}
+
+```
+
 
