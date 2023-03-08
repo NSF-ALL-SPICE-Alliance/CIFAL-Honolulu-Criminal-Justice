@@ -83,6 +83,15 @@ radar_data <- rbind(rep(8,4) , rep(0,8) , global_oc_index_spider_sids_criminalit
 
 
 ```{r}
+radar_data <- radar_data[, order(radar_data[3, ])]
+```
+
+```{r}
+radar_data <- radar_data[, rev(order(radar_data[3,]))]
+```
+
+
+```{r}
 radarchart(radar_data, pfcol = "lavender")
 ```
 
