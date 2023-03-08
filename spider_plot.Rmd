@@ -106,6 +106,7 @@ colors_in=c( rgb(0.2,0.5,0.5,.8), rgb(0.8,0.2,0.5,.8) , rgb(0.7,0.5,0.1,.8) )
 ```{r}
 radarchart(radar_data, axistype=1 , pcol=colors_border , pfcol=colors_in , plwd=3 , plty=1, cglcol="dark grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.95,vlcex=0.8)
 
+legend(x=0.85, y=1, legend = c("Shirley", "Sonia"), bty = "n", pch=20 , col=colors_border , text.col = "black", cex=0.9, pt.cex=1.6)
 ```
 
 
