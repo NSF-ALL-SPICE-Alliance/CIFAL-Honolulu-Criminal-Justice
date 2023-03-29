@@ -17,6 +17,9 @@ library(RColorBrewer)
 ```{r}
 global_oc_index_spider <- read_csv(here("data/global_oc_index_2021_sids_category.csv"))
 ```
+```{r}
+oc_index_region_matrix <- read_csv(here("data/oc_index_region_matrix.csv"))
+```
 
 
 ```{r}
@@ -106,12 +109,66 @@ colors_in=c( rgb(0.2,0.5,0.5,.8), rgb(0.8,0.2,0.5,.8) , rgb(0.7,0.5,0.1,.8) )
 ```{r}
 radarchart(radar_data, axistype=1 , pcol=colors_border , pfcol=colors_in , plwd=3 , plty=1, cglcol="dark grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.95,vlcex=0.8)
 
-legend(x=0.85, y=1, legend = c("Shirley", "Sonia"), bty = "n", pch=20 , col=colors_border , text.col = "black", cex=0.9, pt.cex=1.6)
+
 ```
 
 
 ```{r}
-
+#write_csv(radar_data, here("data/radar_data_matrix.csv"))
 ```
+
+```{r}
+#oc_index_region_matrix[3:5, ][oc_index_region_matrix[3:5, ] == 0] <- NA
+```
+
+
+```{r}
+radarchart(oc_index_region_matrix, axistype=1 , pcol=colors_border , pfcol=colors_in , plwd=3 , plty=1, cglcol="dark grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.95,vlcex=0.8)
+
+legend(x=0.85, y=1, legend = c("AIS", "Caribbean", "Pacific"), bty = "n", pch=20 , col=colors_border , text.col = "black", cex=0.9, pt.cex=1.6)
+```
+From Chat GPT
+
+```{r}
+# Load the fmsb package
+library(fmsb)
+
+# Create a sample data frame with region and variable values
+data <- data.frame(
+  Region = c("North", "South", "East", "West"),
+  Var1 = c(4, 5, 2, 6),
+  Var2 = c(2, 6, 4, 5),
+  Var3 = c(5, 3, 6, 4),
+  Var4 = c(3, 4, 5, 2),
+  Var5 = c(6, 2, 3, 5)
+)
+
+# Define the colors for each region
+colors <- c("blue", "red", "green", "orange")
+
+# Create a radarchart with text color based on region
+radarchart(
+  data[, -1],
+  axistype = 1,
+  vlabels = data$Region,
+  caxislabels = seq(0, 6, 2),
+  colaxis = colors
+)
+```
+
+
+For next time
+
+Andrew: Try your best to use the chat gpt code above to color the text around the plot by region and order by region
+
+Connor: Find the rest of the vulnerability index data
+
+
+
+
+
+
+
+
 
 
