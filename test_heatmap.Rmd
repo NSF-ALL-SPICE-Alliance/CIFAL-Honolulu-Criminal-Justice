@@ -1,0 +1,38 @@
+---
+title: "HeatMap"
+output: html_document
+date: "2023-04-11"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggplot2)
+```
+
+```{r}
+oc_index_heatmap <- read_csv(here("data/global_oc_index_heatmap.csv"))
+```
+
+```{r}
+reporting_status_matrix <- ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = Country, fill = completion_status)) +
+  geom_tile(color = "white",
+            lwd = 1,
+            linetype = 1) +
+  coord_fixed() +
+  labs(x = "Survey Type & Year",
+       y = "SIDS") +
+  theme(axis.text.x = element_text(angle = 45, size = 6, vjust = 1, hjust = 1),
+        axis.text.y = element_text(size = 9),
+        axis.title.x = element_text(size = 12),
+        axis.title.y = element_text(size = 12),
+        legend.title = element_text(size = 6),
+  legend.text = element_text(size = 12)) +
+  scale_fill_brewer(palette="Dark2") 
+
+reporting_status_matrix
+
+ggsave(reporting_status_matrix, file= here("visualizations/reporting_status_matrix.png"), scale=2)
+```
+
