@@ -97,6 +97,7 @@ Create a bar graph to display number of surveys completed from each region. As x
 reporting_status_sids <- ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~region) +
+  theme_minimal() +
   scale_fill_brewer(palette="Dark2") +
   labs(title = "Reporting Status for 5 UN Surveys from 2019 - 2022, SIDS",
        x = "Survey Type",
@@ -127,6 +128,7 @@ Show bar graph to show all 5 regions that completed and not completed UN Surveys
 reporting_status_nonsids <- ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~region) +
+  theme_minimal() +
   scale_fill_brewer(palette="Dark2") +
   labs(title = "Reporting Status for 5 UN Surveys from 2019 - 2022, Non-SIDS",
        x = "Survey Type",
