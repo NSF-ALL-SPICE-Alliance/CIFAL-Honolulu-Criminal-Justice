@@ -1,0 +1,150 @@
+---
+title: "Analysis of Criminal Justice in Small Island Developing States"
+author: "Andrew Nishitomi"
+date: "5/9/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggcorrplot)
+```
+
+![](/Users/connorflynn/Documents/SDG/SIDS_SDG_UNSTATS/visualizations/cifal_logo.png){width=150} 
+
+# Results of this Work
+
+### Result 1 - Why is there no Criminal Justice related data for SIDS through the United Nations Indicator Database
+
+Identifying the data gaps in SIDS reporting Criminal Justice Data to the  United Nations
+
+### Result 2 
+
+Analyze the Global Organized Crime Index through a SIDS - specific lens and visualize the data in a manner that can be integrated in to the UNDP SIDS Data Platform 
+
+# List of Data Sources - Linked 
+
+
+
+
+# Why is there no Criminal Justice related data for SIDS through the United Nations Indicator Database?
+
+
+```{r, include=FALSE, results='hide'}
+sids_reporting <- read_csv(here("data/UN_CJ_Data_Instruments_SIDS_Reporting.csv"))
+
+non_sids_reporting <- read_csv(here("data/UN_CJ_Data_Instruments _Non_SIDS_Reporting.csv"))
+
+```
+
+
+```{r, include=FALSE, results='hide'}
+sids_reporting <- sids_reporting %>% 
+  clean_names()
+
+non_sids_reporting <- non_sids_reporting %>% 
+  clean_names()
+
+```
+
+
+
+```{r, include=FALSE, results='hide'}
+sids_reporting <- sids_reporting %>% 
+  filter(year!= 2017 & year!= 2018)
+
+sids_reporting <- sids_reporting %>% 
+  filter(country_territory!= "Wallis & Futuna" )
+
+```
+
+
+```{r, include=FALSE, results='hide'}
+
+colnames(sids_reporting)[colnames(sids_reporting) == "received"] <- "completion_status"
+
+colnames(non_sids_reporting)[colnames(non_sids_reporting) == "received"] <- "completion_status"
+```
+
+
+
+```{r, include=FALSE, results='hide'}
+
+sids_reporting$completion_status <- as.character(sids_reporting$completion_status)
+
+non_sids_reporting$completion_status <- as.character(non_sids_reporting$completion_status)
+
+```
+
+
+```{r, include=FALSE, results='hide'}
+
+sids_reporting["completion_status"][sids_reporting["completion_status"] == "0"] <- "not_completed"
+
+sids_reporting["completion_status"][sids_reporting["completion_status"] == "1"] <- "completed"
+
+
+non_sids_reporting["completion_status"][non_sids_reporting["completion_status"] == "0"] <- "not_completed"
+
+non_sids_reporting["completion_status"][non_sids_reporting["completion_status"] == "1"] <- "completed"
+```
+
+
+
+```{r, include=FALSE, results='hide'}
+sids_reporting_grouped <- sids_reporting %>% 
+  group_by(region, completion_status, data_collection) %>% 
+  count()
+```
+
+
+```{r}
+reporting_status_sids <- ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~region) +
+  theme_minimal() +
+  scale_fill_brewer(palette="Dark2") +
+  labs(title = "Reporting Status for 5 UN Surveys from 2019 - 2022, SIDS",
+       x = "Survey Type",
+       y = "Number of Surveys Completed / Not Completed") +
+  theme(axis.text.x = element_text(size = 7, vjust = 1, hjust = 1),
+        axis.text.y = element_text(size = 7),
+        axis.title.x = element_text(size = 12),
+        axis.title.y = element_text(size = 12)) +
+  coord_flip()
+
+reporting_status_sids
+
+#ggsave(reporting_status_sids, file= here("visualizations/reporting_status_sids.png"), scale=2)
+
+
+
+```
+
+
+Next steps:
+
+Rest of the viz from the poster, other bar chart and matrix with years
+
+OC Index 
+
+horizontal bars with overall scores 
+  - explanation of resilience minus criminality to get overall score
+  
+tile plot 
+
+spider plot 
+
+
+
+**bold**
+
+*italics*
+
+### List 
+  1. One
+  2. Two
+  3. [the data](https://rpubs.com/connorflynn/1038350)
