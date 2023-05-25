@@ -12,26 +12,28 @@ library(here)
 library(janitor)
 library(ggcorrplot)
 library(gridExtra)
+library(fmsb)
+library(plotly)
 ```
 
 ![](/Users/connorflynn/Documents/SDG/SIDS_SDG_UNSTATS/visualizations/cifal_logo.png){width=150} 
 
 # Results of this Work
 
-### Result 1 - Why is there no Criminal Justice related data for SIDS through the United Nations Indicator Database
-
-Identifying the data gaps in SIDS reporting Criminal Justice Data to the  United Nations
+### Result 1 
+- Analyze why there is no Criminal Justice related data for SIDS through the United Nations Indicator Database
+- Identify the data gaps in SIDS reporting Criminal Justice Data to the  United Nations
 
 ### Result 2 
+ - Analyze the Global Organized Crime Index through a SIDS - specific lens and visualize the data in a manner that can be integrated into the UNDP SIDS Data Platform 
 
-Analyze the Global Organized Crime Index through a SIDS - specific lens and visualize the data in a manner that can be integrated in to the UNDP SIDS Data Platform 
+#### Data Sources 
 
-# List of Data Sources - Linked 
-
-
+[Global Organized Crime Index](https://ocindex.net/) 
 
 
-# Why is there no Criminal Justice related data for SIDS through the United Nations Indicator Database?
+[United Nations Office on Drugs and Crime, Reporting](https://dataunodc.un.org/content/ms-data-collection-log)
+
 
 
 ```{r, include=FALSE, results='hide'}
@@ -102,7 +104,7 @@ sids_reporting_grouped <- sids_reporting %>%
 ```
 
 
-```{r}
+```{r, include=FALSE, results='hide'}
 reporting_status_sids <- ggplot(data = sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~region) +
@@ -125,6 +127,9 @@ reporting_status_sids
 
 ```
 
+```{r}
+reporting_status_sids
+```
 
 
 ```{r, include=FALSE, results='hide'}
@@ -133,7 +138,7 @@ non_sids_reporting_grouped <- non_sids_reporting %>%
   count()
 ```
 
-```{r}
+```{r, include=FALSE, results='hide'}
 reporting_status_nonsids <- ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~region) +
@@ -150,7 +155,15 @@ reporting_status_nonsids <- ggplot(data = non_sids_reporting_grouped, aes(x= dat
   
 reporting_status_nonsids
 ```
-Rearranging columns so that data set shows country_territory, data_collection_year, completion_status
+```{r}
+reporting_status_nonsids
+```
+
+
+
+
+
+<!-- Rearranging columns so that data set shows country_territory, data_collection_year, completion_status -->
 ```{r, include=FALSE, results='hide'}
 sids_reporting_matrix <- sids_reporting %>% 
   select(year, completion_status, data_collection, country_territory)
@@ -164,8 +177,8 @@ sids_reporting_matrix <- sids_reporting_matrix %>%
 
 
 
-Create Heat Graph that shows completion status per year for every data collection 
-```{r}
+<!-- Create Heat Graph that shows completion status per year for every data collection  -->
+```{r, include=FALSE, results='hide'}
 reporting_status_matrix <- ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territory, fill = completion_status)) +
   geom_tile(color = "white",
             lwd = 1,
@@ -183,14 +196,17 @@ reporting_status_matrix <- ggplot(sids_reporting_matrix, aes(x = data_collection
 
 reporting_status_matrix
 ```
-
 ```{r}
+reporting_status_matrix
+```
+
+```{r, include=FALSE, results='hide', message=FALSE}
 global_oc_index_spider <- read_csv(here("data/global_oc_index_2021_sids_category.csv"))
 ```
 
 ## Explanation of resilience minus criminality to get overall score
 
-# In this horizontal bar chart, we wanted to look at the SIDS overall criminality scores. In doing, we took the resillience score and subtracted from the criminality score to achieve the overal_score. For the SIDS with a postive score, there can be assumptions made that the country is making an effort to bring up their resilience towards crime so that their criminality scores can be lowered. For the countries that have a negative score, their criminality scores outweigh the resilience score. 
+In this horizontal bar chart, we wanted to look at the SIDS overall criminality scores. In doing, we took the resillience score and subtracted from the criminality score to achieve the overal_score. For the SIDS with a postive score, there can be assumptions made that the country is making an effort to bring up their resilience towards crime so that their criminality scores can be lowered. For the countries that have a negative score, their criminality scores outweigh the resilience score. 
 
 
 ```{r, include=FALSE, results='hide'}
@@ -211,13 +227,17 @@ global_oc_index_spider_sids <- global_oc_index_spider %>%
 ```
 
 
-```{r}
+```{r, include=FALSE, results='hide'}
 sids_overall_score_plot <- ggplot(data = global_oc_index_spider_sids, aes(x = overall_score,
                                                                           y = reorder(country, overall_score),
                                                                           fill = region)) +
   geom_bar(stat = "identity") +
+  theme_minimal() +
   scale_fill_brewer(palette = "Paired")
 
+sids_overall_score_plot
+```
+```{r}
 sids_overall_score_plot
 ```
 
@@ -250,13 +270,17 @@ oc_index_sids_longer <- oc_index_sids %>%
 ```
 
 ```{r}
-ggplot(data = oc_index_sids_longer, aes(x = measure,
+heatmap <- ggplot(data = oc_index_sids_longer, aes(x = measure,
                                         y = country,
                                         fill = value)) +
   geom_tile() +
   theme(axis.text.x = element_text(angle = 45, size = 6, vjust = 1, hjust = 1)) +
    scale_fill_gradient(low = "yellow", high = "red")
+
+ggplotly(heatmap)
 ```
+
+
 ```{r, include=FALSE, results='hide'}
 global_oc_index_spider_sids_criminality <- global_oc_index_spider_sids %>% 
   select(country, criminality)
@@ -296,26 +320,26 @@ radarchart(radar_data, axistype=1 , pcol=colors_border , pfcol=colors_in , plwd=
 
 
 
-Next steps:
+<!-- Next steps: -->
 
-Rest of the viz from the poster, other bar chart and matrix with years (done)
+<!-- Rest of the viz from the poster, other bar chart and matrix with years (done) -->
 
-OC Index 
+<!-- OC Index  -->
 
-horizontal bars with overall scores (done)
-  - explanation of resilience minus criminality to get overall score
-  
-tile plot 
+<!-- horizontal bars with overall scores (done) -->
+<!--   - explanation of resilience minus criminality to get overall score -->
 
-spider plot done
+<!-- tile plot  -->
+
+<!-- spider plot done -->
 
 
 
-**bold**
+<!-- **bold** -->
 
-*italics*
+<!-- *italics* -->
 
-### List 
-  1. One
-  2. Two
-  3. [the data](https://rpubs.com/connorflynn/1038350)
+<!-- ### List  -->
+<!--   1. One -->
+<!--   2. Two -->
+<!--   3. [the data](https://rpubs.com/connorflynn/1038350) -->
