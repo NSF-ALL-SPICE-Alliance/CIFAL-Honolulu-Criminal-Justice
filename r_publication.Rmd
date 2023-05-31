@@ -127,6 +127,8 @@ reporting_status_sids
 
 ```
 
+In this horizontal bar chart. The data collection shows the 5 UN Surveys that were completed by SIDS from 2019 - 2022. The vertical axis displys the type of surveys and the horizontal axis is the completion of the surveys. 
+
 ```{r}
 reporting_status_sids
 ```
@@ -137,6 +139,9 @@ non_sids_reporting_grouped <- non_sids_reporting %>%
   group_by(region, completion_status, data_collection) %>% 
   count()
 ```
+
+In this horizontal bar chart. The data collection shows the 5 UN Surveys that were completed by NON-SIDS from 2019 - 2022. The vertical axis displys the type of surveys and the horizontal axis is the completion of the surveys. 
+
 
 ```{r, include=FALSE, results='hide'}
 reporting_status_nonsids <- ggplot(data = non_sids_reporting_grouped, aes(x= data_collection, y=n, fill=completion_status)) +
@@ -177,7 +182,7 @@ sids_reporting_matrix <- sids_reporting_matrix %>%
 
 
 
-<!-- Create Heat Graph that shows completion status per year for every data collection  -->
+This Heat Graph shows the completion status per year for every data collection for all SIDS.
 ```{r, include=FALSE, results='hide'}
 reporting_status_matrix <- ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territory, fill = completion_status)) +
   geom_tile(color = "white",
@@ -269,6 +274,8 @@ oc_index_sids_longer <- oc_index_sids %>%
 
 ```
 
+Looking at the OC index data frame, this heat map displays the values for each criminality and resilience measure. Orange is the highest value while yellow displays the lowest possible value. 
+
 ```{r}
 heatmap <- ggplot(data = oc_index_sids_longer, aes(x = measure,
                                         y = country,
@@ -311,7 +318,7 @@ colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.
 colors_in=c( rgb(0.2,0.5,0.5,.8), rgb(0.8,0.2,0.5,.8) , rgb(0.7,0.5,0.1,.8) )
 ```
 
-
+The spider plot displays the values of their criminality scores. Starting from the lowest possible score to the highest possible score. 
 ```{r}
 radarchart(radar_data, axistype=1 , pcol=colors_border , pfcol=colors_in , plwd=3 , plty=1, cglcol="dark grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.95,vlcex=0.8)
 
