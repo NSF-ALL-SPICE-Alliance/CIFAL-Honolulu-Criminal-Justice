@@ -127,7 +127,7 @@ reporting_status_sids
 
 ```
 
-In this horizontal bar chart. The data collection shows the 5 UN Surveys that were completed by SIDS from 2019 - 2022. The vertical axis displys the type of surveys and the horizontal axis is the completion of the surveys. 
+In this horizontal bar chart. The data collection shows the 5 UN Surveys that were completed by SIDS from 2019 - 2022. The vertical axis displays the type of surveys and the horizontal axis is the completion of the surveys. 
 
 ```{r}
 reporting_status_sids
