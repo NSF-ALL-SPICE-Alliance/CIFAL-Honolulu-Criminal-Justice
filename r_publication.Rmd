@@ -16,7 +16,7 @@ library(fmsb)
 library(plotly)
 ```
 
-![](/Users/connorflynn/Documents/SDG/SIDS_SDG_UNSTATS/visualizations/cifal_logo.png){width=150} 
+<img src="cifal_logo.png" width="210" />  <img src="cuh_logo_2.png" width="120" />
 
 # Results of this Work
 
@@ -36,6 +36,8 @@ library(plotly)
 
 
 
+
+## Display of Criminal Justice data gaps in Small Island Developing States(SIDS)
 ```{r, include=FALSE, results='hide'}
 sids_reporting <- read_csv(here("data/UN_CJ_Data_Instruments_SIDS_Reporting.csv"))
 
@@ -127,7 +129,7 @@ reporting_status_sids
 
 ```
 
-In this horizontal bar chart. The data collection shows the 5 UN Surveys that were completed by SIDS from 2019 - 2022. The vertical axis displays the type of surveys and the horizontal axis is the completion of the surveys. 
+In this horizontal bar chart, the data collection shows the 5 UN Surveys (ARQ, UN-IFAQ, UN-CTS, IDS, and GLOTIP) that were completed by SIDS from 2019 - 2022. The vertical axis displays the survey type and the horizontal axis is the number of suveys completed and not completed. 
 
 ```{r}
 reporting_status_sids
@@ -140,7 +142,7 @@ non_sids_reporting_grouped <- non_sids_reporting %>%
   count()
 ```
 
-In this horizontal bar chart. The data collection shows the 5 UN Surveys that were completed by NON-SIDS from 2019 - 2022. The vertical axis displys the type of surveys and the horizontal axis is the completion of the surveys. 
+In this horizontal bar chart, the data collection shows the 5 UN Surveys (ARQ, UN-IFAQ, UN-CTS, IDS, and GLOTIP) that were completed by NON-SIDS from 2019 - 2022. The vertical axis displys the type of surveys and the horizontal axis is the number of surveys completed and not completed. 
 
 
 ```{r, include=FALSE, results='hide'}
@@ -182,7 +184,7 @@ sids_reporting_matrix <- sids_reporting_matrix %>%
 
 
 
-This Heat Graph shows the completion status per year for every data collection for all SIDS.
+This Heat Graph shows the completion status per year for every data collection for all SIDS from the years 2019 - 2022 for each of the four surveys(ARQ, UN-IFAQ, UN-CTS, IDS, and GLOTIP)
 ```{r, include=FALSE, results='hide'}
 reporting_status_matrix <- ggplot(sids_reporting_matrix, aes(x = data_collection_year, y = country_territory, fill = completion_status)) +
   geom_tile(color = "white",
@@ -209,9 +211,9 @@ reporting_status_matrix
 global_oc_index_spider <- read_csv(here("data/global_oc_index_2021_sids_category.csv"))
 ```
 
-## Explanation of resilience minus criminality to get overall score
+### Explanation of resilience minus criminality to get overall score
 
-In this horizontal bar chart, we wanted to look at the SIDS overall criminality scores. In doing, we took the resillience score and subtracted from the criminality score to achieve the overal_score. For the SIDS with a postive score, there can be assumptions made that the country is making an effort to bring up their resilience towards crime so that their criminality scores can be lowered. For the countries that have a negative score, their criminality scores outweigh the resilience score. 
+In this horizontal bar chart, we wanted to look at the SIDS overall criminality scores. In doing, we took the resillience score and subtracted from the criminality score to achieve the overal_score. For the SIDS with a postive score, there can be assumptions made that the country is making an effort to bring up their resilience towards crime so that they can decrease their criminality score. For the countries that have a negative score, their criminality scores outweigh the resilience score. Therefore, the conclusion can be made that their resilience methods needs to be improved upon. 
 
 
 ```{r, include=FALSE, results='hide'}
